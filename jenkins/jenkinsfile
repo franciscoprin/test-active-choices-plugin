@@ -1,0 +1,56 @@
+properties([
+    parameters([
+        // Active Choices Parameter for Environment
+        activeChoices(
+            name: 'Env',
+            type: 'PT_SINGLE_SELECT',  // You can use 'PT_MULTI_SELECT' for multiple selections
+            description: 'Select the Env Name from the Dropdown List',
+            script: [
+                classpath: [],
+                sandbox: false,
+                script: '''
+                    // Replace this with an HTTP request if you want dynamic data
+                    return ["Dev", "QA", "Stage", "Prod"]
+                '''
+            ]
+        ),
+        
+        // Active Choices Reactive Parameter for Server, depending on the selected Env
+        activeChoicesReactive(
+            name: 'Server',
+            type: 'PT_SINGLE_SELECT',  // Use 'PT_MULTI_SELECT' if needed
+            description: 'Select the Server from the Dropdown List',
+            referencedParameters: 'Env',  // React to the selected 'Env'
+            script: [
+                classpath: [],
+                sandbox: false,
+                script: '''
+                    if (Env.equals("Dev")) {
+                        return ["devaaa001", "devaaa002", "devbbb001", "devbbb002", "devccc001", "devccc002"]
+                    } else if (Env.equals("QA")) {
+                        return ["qaaaa001", "qabbb002", "qaccc003"]
+                    } else if (Env.equals("Stage")) {
+                        return ["staaa001", "stbbb002", "stccc003"]
+                    } else if (Env.equals("Prod")) {
+                        return ["praaa001", "prbbb002", "prccc003"]
+                    } else {
+                        return ["Could not get Environment from Env Param"]
+                    }
+                '''
+            ]
+        )
+    ])
+])
+
+
+pipeline {
+    agent any
+
+    stages {
+        stage('Hello World') {
+            steps {
+                sh 'echo "Extracting data..."'
+            }
+        }
+    }
+}
