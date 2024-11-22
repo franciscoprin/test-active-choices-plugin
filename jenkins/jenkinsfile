@@ -4,30 +4,45 @@ properties([
         [
             $class: 'CascadeChoiceParameter',
             choiceType: 'PT_SINGLE_SELECT',  // Single select dropdown
-            description: 'Select the Env Name from the Dropdown List',
-            name: 'Env',
-            randomName: 'choice-parameter-1',
+            description: 'Select the Env Name from the Dropdown List', 
+            filterLength: 1, 
+            filterable: true, 
+            name: 'Env', 
+            randomName: 'choice-parameter-5631314439613978', 
             script: [
-                $class: 'GroovyScript',
+                $class: 'GroovyScript', 
+                fallbackScript: [
+                    classpath: [], 
+                    sandbox: false, 
+                    script: 
+                        'return[\'Could not get Env\']'
+                ], 
                 script: [
                     classpath: [], 
                     sandbox: false, 
                     script: 
-                        'return ["Dev", "QA", "Stage", "Prod"]'
+                        'return["Dev","QA","Stage","Prod"]'
                 ]
             ]
-        ],
-        
+        ], 
         // Active Choices Reactive Parameter for Server, depending on the selected Env
         [
-            $class: 'CascadeChoiceParameter',
-            choiceType: 'PT_SINGLE_SELECT',
-            description: 'Select the Server from the Dropdown List',
-            name: 'Server',
-            randomName: 'choice-parameter-2',
-            referencedParameters: 'Env',  // This parameter reacts to the selected 'Env'
+            $class: 'CascadeChoiceParameter', 
+            choiceType: 'PT_SINGLE_SELECT', 
+            description: 'Select the Server from the Dropdown List', 
+            filterLength: 1, 
+            filterable: true, 
+            name: 'Server', 
+            randomName: 'choice-parameter-5631314456178619', 
+            referencedParameters: 'Env', 
             script: [
                 $class: 'GroovyScript', 
+                fallbackScript: [
+                    classpath: [], 
+                    sandbox: false, 
+                    script: 
+                        'return[\'Could not get Environment from Env Param\']'
+                ], 
                 script: [
                     classpath: [], 
                     sandbox: false, 
