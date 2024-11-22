@@ -1,47 +1,45 @@
 properties([
     parameters([
         // Active Choices Parameter for Environment
-        activeChoices(
-            name: 'Env',
-            type: 'PT_SINGLE_SELECT',  // You can use 'PT_MULTI_SELECT' for multiple selections
+        [
+            $class: 'CascadeChoiceParameter',
+            choiceType: 'PT_SINGLE_SELECT',  // Single select dropdown
             description: 'Select the Env Name from the Dropdown List',
+            name: 'Env',
+            randomName: 'choice-parameter-1',
             script: [
-                classpath: [],
-                sandbox: false,
-                script: '''
-                    // Replace this with an HTTP request if you want dynamic data
-                    return ["Dev", "QA", "Stage", "Prod"]
-                '''
+                $class: 'GroovyScript',
+                script: 'return ["Dev", "QA", "Stage", "Prod"]'
             ]
-        ),
+        ],
         
         // Active Choices Reactive Parameter for Server, depending on the selected Env
-        activeChoicesReactive(
-            name: 'Server',
-            type: 'PT_SINGLE_SELECT',  // Use 'PT_MULTI_SELECT' if needed
+        [
+            $class: 'CascadeChoiceParameter',
+            choiceType: 'PT_SINGLE_SELECT',
             description: 'Select the Server from the Dropdown List',
-            referencedParameters: 'Env',  // React to the selected 'Env'
+            name: 'Server',
+            randomName: 'choice-parameter-2',
+            referencedParameters: 'Env',  // This parameter reacts to the selected 'Env'
             script: [
-                classpath: [],
-                sandbox: false,
+                $class: 'GroovyScript',
                 script: '''
-                    if (Env.equals("Dev")) {
+                    if (Env == "Dev") {
                         return ["devaaa001", "devaaa002", "devbbb001", "devbbb002", "devccc001", "devccc002"]
-                    } else if (Env.equals("QA")) {
+                    } else if (Env == "QA") {
                         return ["qaaaa001", "qabbb002", "qaccc003"]
-                    } else if (Env.equals("Stage")) {
+                    } else if (Env == "Stage") {
                         return ["staaa001", "stbbb002", "stccc003"]
-                    } else if (Env.equals("Prod")) {
+                    } else if (Env == "Prod") {
                         return ["praaa001", "prbbb002", "prccc003"]
                     } else {
-                        return ["Could not get Environment from Env Param"]
+                        return ["No servers available"]
                     }
                 '''
             ]
-        )
+        ]
     ])
 ])
-
 
 pipeline {
     agent any
@@ -50,6 +48,8 @@ pipeline {
         stage('Hello World') {
             steps {
                 sh 'echo "Extracting data..."'
+                echo "Selected Environment: ${params.Env}"
+                echo "Selected Server: ${params.Server}"
             }
         }
     }
