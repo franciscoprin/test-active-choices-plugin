@@ -29,16 +29,18 @@ properties([
       referencedParameters: 'Environment',
       script: [
         $class: 'ScriptlerScript',
-        sandbox: false,
-        scriptlerScriptId:'rebuildStringParameter.groovy',
-        parameters: [
-          [name: 'JobName', value: 'test-active-choices-plugin'],
-          [name:'JobBuildNumber', value: '30'],
-          [name:'RebuildValueImmutable', value: 'true'],
-          [name:'ParameterName', value: 'CustomStringParameter'],
-          [name:'ParameterDefaultValue', value: 'Default Value'],
-          [name:'ParameterDescription', value: 'This is a test parameter'],
-          [name:'ParameterTrimTheString', value: 'true'],
+        script: [
+          sandbox: false,
+          scriptlerScriptId:'rebuildStringParameter.groovy',
+          parameters: [
+            [name: 'JobName', value: 'test-active-choices-plugin'],
+            [name:'JobBuildNumber', value: '30'],
+            [name:'RebuildValueImmutable', value: 'true'],
+            [name:'ParameterName', value: 'CustomStringParameter'],
+            [name:'ParameterDefaultValue', value: 'Default Value'],
+            [name:'ParameterDescription', value: 'This is a test parameter'],
+            [name:'ParameterTrimTheString', value: 'true'],
+          ]
         ]
       ]
     ]
