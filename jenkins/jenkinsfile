@@ -24,7 +24,7 @@ properties([
     ],
     [
       $class: 'CascadeChoiceParameter',
-      choiceType: 'PT_SINGLE_SELECT',
+      choiceType: 'ET_FORMATTED_HTML',
       name: 'CustomStringParameter',
       referencedParameters: 'Environment',
       script: [
