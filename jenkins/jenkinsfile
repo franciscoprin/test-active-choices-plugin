@@ -31,12 +31,12 @@ properties([
         $class: 'ScriptlerScript',
         scriptlerScriptId:'HostsInEnv.groovy',
         parameters: [
-          [name:'JobBuildNumber', value: "7"],
-          [name:'RebuildValueImmutable', value: true],
+          [name:'JobBuildNumber', value: '7'],
+          [name:'RebuildValueImmutable', value: 'true'],
           [name:'ParameterName', value: 'date-my-parameter'],
           [name:'ParameterDefaultValue', value: 'Default Value'],
           [name:'ParameterDescription', value: 'This is a test parameter'],
-          [name:'ParameterTrimTheString', value: true],
+          [name:'ParameterTrimTheString', value: 'true'],
         ]
       ]
     ]
