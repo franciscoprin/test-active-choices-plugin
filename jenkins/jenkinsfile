@@ -29,7 +29,7 @@ properties([
       referencedParameters: 'Environment',
       script: [
         $class: 'ScriptlerScript',
-        scriptlerScriptId:'rebuildStringParameter',
+        scriptlerScriptId:'rebuildStringParameter.groovy',
         parameters: [
           [name:'JobBuildNumber', value: '30'],
           [name:'RebuildValueImmutable', value: 'true'],
