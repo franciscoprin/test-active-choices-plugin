@@ -31,9 +31,9 @@ properties([
         $class: 'ScriptlerScript',
         scriptlerScriptId:'rebuildStringParameter',
         parameters: [
-          [name:'JobBuildNumber', value: '7'],
+          [name:'JobBuildNumber', value: '30'],
           [name:'RebuildValueImmutable', value: 'true'],
-          [name:'ParameterName', value: 'date-my-parameter'],
+          [name:'ParameterName', value: 'CustomStringParameter'],
           [name:'ParameterDefaultValue', value: 'Default Value'],
           [name:'ParameterDescription', value: 'This is a test parameter'],
           [name:'ParameterTrimTheString', value: 'true'],
