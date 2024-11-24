@@ -7,7 +7,7 @@ properties([
       name: 'Environment',
       script: [
         $class: 'ScriptlerScript',
-        scriptlerScriptId:'Environments.groovy'
+        scriptlerScriptId: 'Environments.groovy'
       ]
     ],
     [
@@ -18,9 +18,9 @@ properties([
       script: [
         $class: 'ScriptlerScript',
         sandbox: false,
-        scriptlerScriptId:'HostsInEnv.groovy',
+        scriptlerScriptId: 'HostsInEnv.groovy',
         parameters: [
-          [name:'Environment', value: '$Environment']
+          [name: 'Environment', value: '$Environment']
         ]
       ]
     ],
@@ -32,19 +32,24 @@ properties([
       script: [
         $class: 'ScriptlerScript',
         sandbox: false,
-        scriptlerScriptId:'rebuildStringParameter.groovy',
+        scriptlerScriptId: 'rebuildStringParameter.groovy',
         parameters: [
           [name: 'JobName', value: 'test-active-choices-plugin'],
-          [name:'JobBuildNumber', value: '50'],
-          [name:'RebuildValueImmutable', value: 'true'],
-          [name:'ParameterName', value: 'CustomStringParameter'],
-          [name:'ParameterDefaultValue', value: 'Default Value'],
-          [name:'ParameterDescription', value: 'This is a test parameter'],
-          [name:'ParameterTrimTheString', value: 'true'],
+          [name: 'JobBuildNumber', value: '50'],
+          [name: 'RebuildValueImmutable', value: 'true'],
+          [name: 'ParameterName', value: 'CustomStringParameter'],
+          [name: 'ParameterDefaultValue', value: 'Default Value'],
+          [name: 'ParameterDescription', value: 'This is a test parameter'],
+          [name: 'ParameterTrimTheString', value: 'true'],
         ]
       ]
-    ]
- ])
+    ],
+    string(
+      name: 'rebuild',
+      defaultValue: '',
+      description: 'Specify the build number you want to rebuild from'
+    )
+  ])
 ])
 
 pipeline {
@@ -52,8 +57,9 @@ pipeline {
   stages {
     stage('Build') {
       steps {
-        echo "${params.Environment}"
-        echo "${params.Host}"
+        echo "Environment: ${params.Environment}"
+        echo "Host: ${params.Host}"
+        echo "CustomStringParameter: ${params.CustomStringParameter}"
       }
     }
   }
