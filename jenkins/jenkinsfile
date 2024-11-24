@@ -1,5 +1,10 @@
 properties([
   parameters([
+    string(
+      name: 'rebuild',
+      defaultValue: '',
+      description: 'Specify the build number you want to rebuild from'
+    ),
     [
       $class: 'ChoiceParameter',
       sandbox: false,
@@ -35,7 +40,7 @@ properties([
         scriptlerScriptId: 'rebuildStringParameter.groovy',
         parameters: [
           [name: 'JobName', value: 'test-active-choices-plugin'],
-          [name: 'JobBuildNumber', value: '50'],
+          [name: 'JobBuildNumber', value: '$rebuild'],  // Use the 'rebuild' parameter value here
           [name: 'RebuildValueImmutable', value: 'true'],
           [name: 'ParameterName', value: 'CustomStringParameter'],
           [name: 'ParameterDefaultValue', value: 'Default Value'],
@@ -43,14 +48,10 @@ properties([
           [name: 'ParameterTrimTheString', value: 'true'],
         ]
       ]
-    ],
-    string(
-      name: 'rebuild',
-      defaultValue: '',
-      description: 'Specify the build number you want to rebuild from'
-    )
+    ]
   ])
 ])
+
 
 pipeline {
   agent any
