@@ -2,6 +2,7 @@ properties([
   parameters([
     [
       $class: 'ChoiceParameter',
+      sandbox: false,
       choiceType: 'PT_SINGLE_SELECT',
       name: 'Environment',
       script: [
@@ -16,6 +17,7 @@ properties([
       referencedParameters: 'Environment',
       script: [
         $class: 'ScriptlerScript',
+        sandbox: false,
         scriptlerScriptId:'HostsInEnv.groovy',
         parameters: [
           [name:'Environment', value: '$Environment']
@@ -29,18 +31,16 @@ properties([
       referencedParameters: 'Environment',
       script: [
         $class: 'ScriptlerScript',
-        script: [
-          sandbox: false,
-          scriptlerScriptId:'rebuildStringParameter.groovy',
-          parameters: [
-            [name: 'JobName', value: 'test-active-choices-plugin'],
-            [name:'JobBuildNumber', value: '30'],
-            [name:'RebuildValueImmutable', value: 'true'],
-            [name:'ParameterName', value: 'CustomStringParameter'],
-            [name:'ParameterDefaultValue', value: 'Default Value'],
-            [name:'ParameterDescription', value: 'This is a test parameter'],
-            [name:'ParameterTrimTheString', value: 'true'],
-          ]
+        sandbox: false,
+        scriptlerScriptId:'rebuildStringParameter.groovy',
+        parameters: [
+          [name: 'JobName', value: 'test-active-choices-plugin'],
+          [name:'JobBuildNumber', value: '30'],
+          [name:'RebuildValueImmutable', value: 'true'],
+          [name:'ParameterName', value: 'CustomStringParameter'],
+          [name:'ParameterDefaultValue', value: 'Default Value'],
+          [name:'ParameterDescription', value: 'This is a test parameter'],
+          [name:'ParameterTrimTheString', value: 'true'],
         ]
       ]
     ]
