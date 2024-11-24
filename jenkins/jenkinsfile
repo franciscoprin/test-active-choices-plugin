@@ -35,7 +35,7 @@ properties([
         scriptlerScriptId:'rebuildStringParameter.groovy',
         parameters: [
           [name: 'JobName', value: 'test-active-choices-plugin'],
-          [name:'JobBuildNumber', value: '30'],
+          [name:'JobBuildNumber', value: '50'],
           [name:'RebuildValueImmutable', value: 'true'],
           [name:'ParameterName', value: 'CustomStringParameter'],
           [name:'ParameterDefaultValue', value: 'Default Value'],
