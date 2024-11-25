@@ -47,6 +47,14 @@ class StringRebuildParameter {
      * Fetches the parameter value from the previous build and sets the current value.
      */
     private void fetchPreviousValue() {
+
+        // Check if the build number was selected.
+        // If the build number is not selected, it defaults to -1.
+        if (this.jobBuildNumber < 0) {
+            this.currentValue = this.parameterDefaultValue
+            return
+        }
+
         // Retrieve the Jenkins job
         def job = Jenkins.instance.getItemByFullName(this.jobName)
         if (job == null) {
@@ -97,7 +105,7 @@ class StringRebuildParameter {
     </div>
     <div class="setting-main">
         <div name="parameter">
-            <input name="value" placeholder="" type="text" class="jenkins-input" value="${this.currentValue}" ${readOnlyAttribute}>
+            <input name="value" placeholder="" type="text" class="setting-input" value="${this.currentValue}" ${readOnlyAttribute}>
         </div>
     </div>
     <div class="validation-error-area">
@@ -108,27 +116,10 @@ class StringRebuildParameter {
     }
 }
 
-// // Example1 usage
-// def jobName = 'my-test-date-parameter' // env.JOB_NAME // Assume we're running this from within a Jenkins job
-// def jobBuildNumber = '7'.toInteger()
-// def rebuildValueImmutable = 'true'.toBoolean()
-// def parameterName = 'string-my-parameter'
-// def parameterDefaultValue = "Default Value"
-// def parameterDescription = "This is a test parameter"
-// def parameterTrimTheString = 'true'.toBoolean()
-
-
-// // Example2 usage
-// def jobName = 'test-active-choices-plugin' // env.JOB_NAME // Assume we're running this from within a Jenkins job
-// def jobBuildNumber = '53'.toInteger()
-// def rebuildValueImmutable = 'true'.toBoolean()
-// def parameterName = 'CustomStringParameter'
-// def parameterDefaultValue = "Default Value"
-// def parameterDescription = "This is a test parameter"
-// def parameterTrimTheString = 'true'.toBoolean()
+// Handle JobBuildNumber conversion, using -1 if empty
+def jobBuildNumber = JobBuildNumber?.trim() ? JobBuildNumber.toInteger() : -1 // 6
 
 def jobName = JobName // env.JOB_NAME
-def jobBuildNumber = JobBuildNumber.toInteger() // 6
 def rebuildValueImmutable = RebuildValueImmutable.toBoolean() // true
 def parameterName = ParameterName // 'date-my-parameter'
 def parameterDefaultValue = ParameterDefaultValue // "Default Value"
