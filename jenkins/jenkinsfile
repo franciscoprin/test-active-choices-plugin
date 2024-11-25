@@ -7,7 +7,7 @@ properties([
     ),
     [
       $class: 'ChoiceParameter',
-      sandbox: false,
+      isSandboxed: false,
       choiceType: 'PT_SINGLE_SELECT',
       name: 'Environment',
       script: [
@@ -22,7 +22,7 @@ properties([
       referencedParameters: 'Environment',
       script: [
         $class: 'ScriptlerScript',
-        sandbox: false,
+        isSandboxed: false,
         scriptlerScriptId: 'HostsInEnv.groovy',
         parameters: [
           [name: 'Environment', value: '$Environment']
@@ -34,7 +34,7 @@ properties([
       choiceType: 'ET_FORMATTED_HTML',
       name: 'CustomStringParameter',
       referencedParameters: 'rebuild',
-      omitValueField: true,
+      omitValueField: false,
       script: [
         $class: 'ScriptlerScript',
         isSandboxed: false,
