@@ -37,7 +37,7 @@ properties([
       omitValueField: true,
       script: [
         $class: 'ScriptlerScript',
-        useGroovySandbox: false,
+        isSandboxed: false,
         scriptlerScriptId: 'rebuildStringParameter.groovy',
         parameters: [
           [name: 'JobName', value: 'test-active-choices-plugin'],
