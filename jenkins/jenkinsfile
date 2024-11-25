@@ -7,7 +7,7 @@ properties([
     ),
     [
       $class: 'ChoiceParameter',
-      isSandboxed: false,
+      isSandboxed: true,
       choiceType: 'PT_SINGLE_SELECT',
       name: 'Environment',
       script: [
@@ -22,7 +22,7 @@ properties([
       referencedParameters: 'Environment',
       script: [
         $class: 'ScriptlerScript',
-        isSandboxed: false,
+        isSandboxed: true,
         scriptlerScriptId: 'HostsInEnv.groovy',
         parameters: [
           [name: 'Environment', value: '$Environment']
@@ -37,7 +37,7 @@ properties([
       omitValueField: false,
       script: [
         $class: 'ScriptlerScript',
-        isSandboxed: false,
+        isSandboxed: true,
         scriptlerScriptId: 'rebuildStringParameter.groovy',
         parameters: [
           [name: 'JobName', value: 'test-active-choices-plugin'],
