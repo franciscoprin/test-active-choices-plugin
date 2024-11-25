@@ -34,9 +34,10 @@ properties([
       choiceType: 'ET_FORMATTED_HTML',
       name: 'CustomStringParameter',
       referencedParameters: 'rebuild',
+      omitValueField: true,
       script: [
         $class: 'ScriptlerScript',
-        sandbox: false,
+        useGroovySandbox: false,
         scriptlerScriptId: 'rebuildStringParameter.groovy',
         parameters: [
           [name: 'JobName', value: 'test-active-choices-plugin'],
