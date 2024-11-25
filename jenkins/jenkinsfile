@@ -34,7 +34,7 @@ properties([
       choiceType: 'ET_FORMATTED_HTML',
       name: 'CustomStringParameter',
       referencedParameters: 'rebuild',
-      omitValueField: false,
+      omitValueField: true,
       script: [
         $class: 'ScriptlerScript',
         isSandboxed: true,
