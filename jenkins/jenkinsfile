@@ -44,7 +44,7 @@ properties([
         isSandboxed: true,
         scriptlerScriptId: 'rebuildStringParameter.groovy',
         parameters: [
-          [name: 'JobName', value: 'test-active-choices-plugin'],
+          [name: 'JobName', value: env.JOB_NAME],
           [name: 'JobBuildNumber', value: '$rebuild'],  // Use the 'rebuild' parameter value here
           [name: 'RebuildValueImmutable', value: 'true'],
           [name: 'ParameterName', value: 'CustomStringParameter'],
