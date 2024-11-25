@@ -117,14 +117,14 @@ class StringRebuildParameter {
 }
 
 // Handle JobBuildNumber conversion, using -1 if empty
-def jobBuildNumber = JobBuildNumber?.trim() ? JobBuildNumber.toInteger() : -1 // 6
+def jobBuildNumber = JobBuildNumber?.trim() ? JobBuildNumber.toInteger() : -1
 
-def jobName = JobName // env.JOB_NAME
-def rebuildValueImmutable = RebuildValueImmutable.toBoolean() // true
-def parameterName = ParameterName // 'date-my-parameter'
-def parameterDefaultValue = ParameterDefaultValue // "Default Value"
-def parameterDescription = ParameterDescription // "This is a test parameter"
-def parameterTrimTheString = ParameterTrimTheString.toBoolean() // true
+def jobName = JobName
+def rebuildValueImmutable = RebuildValueImmutable.toBoolean()
+def parameterName = ParameterName
+def parameterDefaultValue = ParameterDefaultValue
+def parameterDescription = ParameterDescription
+def parameterTrimTheString = ParameterTrimTheString.toBoolean()
 
 // Initialize the parameter object
 def stringRebuildParam = new StringRebuildParameter(jobName, jobBuildNumber, rebuildValueImmutable, parameterName, parameterDefaultValue, parameterDescription, parameterTrimTheString)
