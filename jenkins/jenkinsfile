@@ -34,6 +34,10 @@ properties([
       choiceType: 'ET_FORMATTED_HTML',
       name: 'CustomStringParameter',
       referencedParameters: 'rebuild',
+      // omitValueField is to prevent the trailing comma.
+      // More details in the following links:
+      // * https://stackoverflow.com/questions/74803173/parameterized-pipeline-with-choice-has-trailing-comma
+      // * Search for Omit Value Field for more details: https://wiki.jenkins.io/JENKINS/Active-Choices-Plugin.html
       omitValueField: true,
       script: [
         $class: 'ScriptlerScript',
