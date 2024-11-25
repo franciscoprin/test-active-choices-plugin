@@ -1,3 +1,80 @@
+/**
+ * Generates a dynamic reference parameter configuration for Jenkins.
+ * 
+ * This function creates a dynamic parameter configuration used in Jenkins pipelines.
+ * The generated configuration is for a parameter that dynamically updates based on other input values.
+ * It utilizes the 'ScriptlerScript' to provide dynamic options.
+ * 
+ * @param args A map containing the following key-value pairs:
+ *   - parameterName (String): The name of the parameter to be created.
+ *   - defaultValue (String): The default value for the parameter. Default is an empty string.
+ *   - description (String): A description of the parameter. Default is an empty string.
+ *   - referencedParameter (String): The name of another parameter used to determine the value dynamically.
+ *   - rebuildValueImmutable (boolean): If true, the rebuild value remains immutable. Default is false.
+ *   - parameterTrimTheString (boolean): If true, trims the parameter's value. Default is false.
+ * 
+ * @return A map representing the Jenkins dynamic parameter configuration.
+ */
+def rebuildString(Map args) {
+    String parameterName = args.parameterName
+    String defaultValue = args.get('defaultValue', '')  // Default to empty string if not provided
+    String description = args.get('description', '')    // Default to empty string if not provided
+    String referencedParameter = args.referencedParameter
+    boolean rebuildValueImmutable = args.get('rebuildValueImmutable', false)  // Default to false if not provided
+    boolean parameterTrimTheString = args.get('parameterTrimTheString', false)  // Default to false if not provided
+
+    return [
+        $class: 'DynamicReferenceParameter',
+        choiceType: 'ET_FORMATTED_HTML',
+        name: parameterName,
+        referencedParameters: referencedParameter,
+        // omitValueField is to prevent the trailing comma.
+        // More details in the following links:
+        // * https://stackoverflow.com/questions/74803173/parameterized-pipeline-with-choice-has-trailing-comma
+        // * Search for Omit Value Field for more details: https://wiki.jenkins.io/JENKINS/Active-Choices-Plugin.html
+        omitValueField: true,
+        script: [
+            $class: 'ScriptlerScript',
+            isSandboxed: true,
+            scriptlerScriptId: 'rebuildStringParameter.groovy',
+            parameters: [
+                [name: 'JobName', value: env.JOB_NAME],
+                [name: 'JobBuildNumber', value: "\$${referencedParameter}"],
+                [name: 'RebuildValueImmutable', value: rebuildValueImmutable.toString()],
+                [name: 'ParameterName', value: parameterName],
+                [name: 'ParameterDefaultValue', value: defaultValue],
+                [name: 'ParameterDescription', value: description],
+                [name: 'ParameterTrimTheString', value: parameterTrimTheString.toString()],
+            ]
+        ]
+    ]
+}
+
+// // Example usage with updated default arguments
+// def dynamicParameterConfig = rebuildString(
+//     parameterName: 'CustomStringParameter',       // parameterName
+//     referencedParameter: 'rebuild'                // referencedParameter
+// )
+
+// println dynamicParameterConfig
+
+
+// // Example usage with arguments
+// def dynamicParameterConfig = rebuildString(
+//     parameterName: 'CustomStringParameter',       // parameterName
+//     defaultValue: 'Default Value',                // defaultValue
+//     description: 'This is a test parameter',      // description
+//     referencedParameter: 'rebuild',               // referencedParameter
+//     rebuildValueImmutable: true,                  // rebuildValueImmutable as boolean
+//     parameterTrimTheString: true                  // parameterTrimTheString as boolean
+// )
+
+// println dynamicParameterConfig
+
+
+
+
+
 properties([
   parameters([
     string(
@@ -30,30 +107,39 @@ properties([
       ]
     ],
     [
-      $class: 'DynamicReferenceParameter',
-      choiceType: 'ET_FORMATTED_HTML',
-      name: 'CustomStringParameter',
-      referencedParameters: 'rebuild',
-      // omitValueField is to prevent the trailing comma.
-      // More details in the following links:
-      // * https://stackoverflow.com/questions/74803173/parameterized-pipeline-with-choice-has-trailing-comma
-      // * Search for Omit Value Field for more details: https://wiki.jenkins.io/JENKINS/Active-Choices-Plugin.html
-      omitValueField: true,
-      script: [
-        $class: 'ScriptlerScript',
-        isSandboxed: true,
-        scriptlerScriptId: 'rebuildStringParameter.groovy',
-        parameters: [
-          [name: 'JobName', value: env.JOB_NAME],
-          [name: 'JobBuildNumber', value: '$rebuild'],  // Use the 'rebuild' parameter value here
-          [name: 'RebuildValueImmutable', value: 'true'],
-          [name: 'ParameterName', value: 'CustomStringParameter'],
-          [name: 'ParameterDefaultValue', value: 'Default Value'],
-          [name: 'ParameterDescription', value: 'This is a test parameter'],
-          [name: 'ParameterTrimTheString', value: 'true'],
-        ]
-      ]
-    ]
+    //   $class: 'DynamicReferenceParameter',
+    //   choiceType: 'ET_FORMATTED_HTML',
+    //   name: 'CustomStringParameter',
+    //   referencedParameters: 'rebuild',
+    //   // omitValueField is to prevent the trailing comma.
+    //   // More details in the following links:
+    //   // * https://stackoverflow.com/questions/74803173/parameterized-pipeline-with-choice-has-trailing-comma
+    //   // * Search for Omit Value Field for more details: https://wiki.jenkins.io/JENKINS/Active-Choices-Plugin.html
+    //   omitValueField: true,
+    //   script: [
+    //     $class: 'ScriptlerScript',
+    //     isSandboxed: true,
+    //     scriptlerScriptId: 'rebuildStringParameter.groovy',
+    //     parameters: [
+    //       [name: 'JobName', value: env.JOB_NAME],
+    //       [name: 'JobBuildNumber', value: '$rebuild'],  // Use the 'rebuild' parameter value here
+    //       [name: 'RebuildValueImmutable', value: 'true'],
+    //       [name: 'ParameterName', value: 'CustomStringParameter'],
+    //       [name: 'ParameterDefaultValue', value: 'Default Value'],
+    //       [name: 'ParameterDescription', value: 'This is a test parameter'],
+    //       [name: 'ParameterTrimTheString', value: 'true'],
+    //     ]
+    //   ]
+    // ]
+
+    rebuildString(
+      parameterName: 'CustomStringParameter',
+      defaultValue: 'Default Value',
+      description: 'This is a test parameter',
+      referencedParameter: 'rebuild',
+      rebuildValueImmutable: true,
+      parameterTrimTheString: true
+    )
   ])
 ])
 
